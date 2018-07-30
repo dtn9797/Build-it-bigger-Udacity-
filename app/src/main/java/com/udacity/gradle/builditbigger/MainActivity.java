@@ -1,5 +1,9 @@
 package com.udacity.gradle.builditbigger;
 
+import android.app.Fragment;
+
+import android.support.v4.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,10 +18,22 @@ import com.example.showjoke.DetailActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    MainActivityFragment mainActivityFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        mainActivityFragment = new MainActivityFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.fragment_container,mainActivityFragment)
+                .commit();
+
+
+
     }
 
 
@@ -43,11 +59,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void tellJoke(View view) {
-        Toast.makeText(this, MyClass.getJoke(), Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra("joke",MyClass.getJoke());
-        startActivity(intent);
+    public void tellJoke (View view) {
+        new EndpointsAsyncTask().execute(mainActivityFragment);
     }
 
 
