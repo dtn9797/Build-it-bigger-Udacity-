@@ -1,14 +1,11 @@
 package com.udacity.gradle.builditbigger;
 
-import android.app.Application;
-import android.test.ApplicationTestCase;
 import android.text.TextUtils;
 
 import org.junit.Test;
 
 import java.util.concurrent.CountDownLatch;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 
 /**
@@ -16,7 +13,7 @@ import static junit.framework.Assert.assertFalse;
  */
 
 public class AsyncTest {
-    String mJoke;
+    private String mJoke;
     @Test
     public void aTest () throws InterruptedException {
         final CountDownLatch signal = new CountDownLatch(1);
