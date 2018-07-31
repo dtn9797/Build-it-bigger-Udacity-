@@ -15,8 +15,8 @@ import java.io.IOException;
 
 class EndpointsAsyncTask extends AsyncTask<MainActivityFragment, Void, String> {
     private static MyApi myApiService = null;
-    private Context context;
     private MainActivityFragment mainActivityFragment;
+    private GetTaskListener listener;
 
 
     @Override
@@ -39,7 +39,9 @@ class EndpointsAsyncTask extends AsyncTask<MainActivityFragment, Void, String> {
             myApiService = builder.build();
         }
 
+        if (listener == null) {
             mainActivityFragment = fragment[0];
+        }
 
             try {
                 return myApiService.sayHi().execute().getData();
@@ -50,7 +52,25 @@ class EndpointsAsyncTask extends AsyncTask<MainActivityFragment, Void, String> {
 
         @Override
         protected void onPostExecute (String result){
-            mainActivityFragment.lauchDetailActivity(result);
+            if (listener != null) {
+                listener.onComplete(result);
+            }else {
+                mainActivityFragment.lauchDetailActivity(result);
+            }
+
         }
-}
+
+        public static interface GetTaskListener {
+            public void onComplete(String joke);
+        }
+
+        public EndpointsAsyncTask setListener (GetTaskListener getTaskListener){
+            listener = getTaskListener;
+            return this;
+        }
+
+
+    }
+
+
 
